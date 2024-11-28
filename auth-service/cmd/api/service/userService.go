@@ -9,7 +9,13 @@ import (
 )
 
 type UserService struct {
-	UserRepository repository.UserRepository
+	userRepository repository.UserRepository
+}
+
+func NewUserService() *UserService {
+	return &UserService{
+		userRepository: *repository.NewUserRepository(),
+	}
 }
 
 func (userService *UserService) SaveUser(user models.User) models.User {
@@ -20,11 +26,11 @@ func (userService *UserService) SaveUser(user models.User) models.User {
 	}
 
 	user.Password = string(hashedPassword)
-	return userService.UserRepository.SaveUser(user)
+	return userService.userRepository.SaveUser(user)
 }
 
 func (userService *UserService) IsValidUserLogin(email string, password string) bool {
-	foundUserByEmail := userService.UserRepository.FindUserByEmail(email)
+	foundUserByEmail := userService.userRepository.FindUserByEmail(email)
 	log.Println("Found user with email:", foundUserByEmail)
 	err := bcrypt.CompareHashAndPassword([]byte(foundUserByEmail.Password), []byte(password))
 	return err == nil

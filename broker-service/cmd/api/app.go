@@ -21,7 +21,7 @@ func CreateApp() *chi.Mux {
 	  }))
 	rootRouter := routes.RootRoute(baseRouter)
 
-	log.Println("Server started")
+	log.Println("Broker service started on port", port)
 
 	return rootRouter
 }

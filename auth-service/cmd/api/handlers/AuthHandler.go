@@ -1,40 +1,16 @@
 package handlers
 
 import (
-	"auth-service/cmd/api/db"
 	"auth-service/cmd/api/dto"
 	"auth-service/cmd/api/helpers"
-	"auth-service/cmd/api/repository"
 	"auth-service/cmd/api/service"
 	"encoding/json"
 	"log"
 	"net/http"
-	"os"
-	"strconv"
 )
 
-
-
 func AuthHandler(w http.ResponseWriter, r *http.Request) {
-	var dbPort, _ = strconv.ParseUint(os.Getenv("DB_PORT"), 10, 16)
-
-	var dbConfigurations = db.DBConfig{
-		Host: os.Getenv("DB_HOST"),
-		Port: uint(dbPort),
-		User: os.Getenv("DB_USERNAME"),
-		Password: os.Getenv("DB_PASSWORD"),
-		Database: os.Getenv("DB_NAME"),
-	}
-
-	var connection = db.GetConnection(dbConfigurations)
-
-	var userRepository = repository.UserRepository{
-		Connection: connection,
-	}
-
-	var userService = service.UserService{
-		UserRepository: userRepository,
-	}
+	userService := service.NewUserService()
 	receivedCredentials := dto.Credentials{}
 	err := json.NewDecoder(r.Body).Decode(&receivedCredentials)
 	log.Println("Request received to authenticate with email:", receivedCredentials.Email)
