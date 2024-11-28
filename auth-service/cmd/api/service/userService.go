@@ -25,6 +25,7 @@ func (userService *UserService) SaveUser(user models.User) models.User {
 
 func (userService *UserService) IsValidUserLogin(email string, password string) bool {
 	foundUserByEmail := userService.UserRepository.FindUserByEmail(email)
+	log.Println("Found user with email:", foundUserByEmail)
 	err := bcrypt.CompareHashAndPassword([]byte(foundUserByEmail.Password), []byte(password))
 	return err == nil
 
