@@ -7,7 +7,6 @@ import (
 )
 
 func RootRoute(router *chi.Mux) *chi.Mux {
-	router.HandleFunc("GET /", handlers.RootHandler)
-	router.HandleFunc("GET /health", handlers.GetHealthHandler)
+	router.HandleFunc("POST /authenticate", handlers.AuthHandler)
 	return router
 }

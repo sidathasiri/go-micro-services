@@ -2,6 +2,7 @@ package main
 
 import (
 	"broker/cmd/api/routes"
+	"log"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -19,6 +20,8 @@ func CreateApp() *chi.Mux {
 		AllowCredentials: true,
 	  }))
 	rootRouter := routes.RootRoute(baseRouter)
+
+	log.Println("Server started")
 
 	return rootRouter
 }
